@@ -99,35 +99,22 @@ class ParticleFilter {
    * This can be a very useful debugging tool to make sure transformations 
    *   are correct and assocations correctly connected
    */
-  void SetAssociations(Particle& particle, const std::vector<int>& associations,
-                       const std::vector<double>& sense_x, 
-                       const std::vector<double>& sense_y);
-  /**
-   * Used for obtaining debugging information related to particles.
-   */
-  std::string getAssociations(Particle best);
-  std::string getSenseCoord(Particle best, std::string coord);
-
-  /**
-   * initialized Returns whether particle filter is initialized yet or not.
-   */
-  const bool initialized() const {
-    return is_initialized;
-  }
-
+ //void SetAssociations(Particle& particle, const std::vector<int>& associations,const std::vector<double>& sense_x,const std::vector<double>& sense_y); 
+                       
   
-//   // Set of current particles
-//   std::vector<Particle> particles;
+   Particle SetAssociations(Particle particle, std::vector<int> associations, std::vector<double> sense_x, std::vector<double> sense_y);
+	
+	std::string getAssociations(Particle best);
+	std::string getSenseX(Particle best);
+	std::string getSenseY(Particle best);
 
-//  private:
-//   // Number of particles to draw
-//   int num_particles; 
-  
-//   // Flag, if filter is initialized
-//   bool is_initialized;
-  
-//   // Vector of weights of all particles
-//   std::vector<double> weights; 
+	/**
+	 * initialized Returns whether particle filter is initialized yet or not.
+	 */
+	const bool initialized() const {
+		return is_initialized;
+	}
 };
+
 
 #endif  // PARTICLE_FILTER_H_
