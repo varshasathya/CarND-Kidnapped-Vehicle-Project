@@ -247,19 +247,27 @@ void ParticleFilter::resample() {
    }
   particles = resampled_particles;
 }
-
-void ParticleFilter::SetAssociations(Particle& particle, 
-                                     const vector<int>& associations, 
-                                     const vector<double>& sense_x, 
-                                     const vector<double>& sense_y) {
+Particle ParticleFilter::SetAssociations(Particle particle, std::vector<int> associations, std::vector<double> sense_x, std::vector<double> sense_y)
+{
+// void ParticleFilter::SetAssociations(Particle& particle, 
+//                                      const vector<int>& associations, 
+//                                      const vector<double>& sense_x, 
+//                                      const vector<double>& sense_y) {
   // particle: the particle to which assign each listed association, 
   //   and association's (x,y) world coordinates mapping
   // associations: The landmark id that goes along with each listed association
   // sense_x: the associations x mapping already converted to world coordinates
   // sense_y: the associations y mapping already converted to world coordinates
+  //Clear the previous associations
+  particle.associations.clear();
+  particle.sense_x.clear();
+  particle.sense_y.clear();
+
   particle.associations= associations;
   particle.sense_x = sense_x;
   particle.sense_y = sense_y;
+
+  return particle;
 }
 
 string ParticleFilter::getAssociations(Particle best) {
@@ -271,18 +279,21 @@ string ParticleFilter::getAssociations(Particle best) {
   return s;
 }
 
-string ParticleFilter::getSenseCoord(Particle best, string coord) {
-  vector<double> v;
-
-  if (coord == "X") {
-    v = best.sense_x;
-  } else {
-    v = best.sense_y;
-  }
-
-  std::stringstream ss;
-  copy(v.begin(), v.end(), std::ostream_iterator<float>(ss, " "));
-  string s = ss.str();
-  s = s.substr(0, s.length()-1);  // get rid of the trailing space
-  return s;
+string ParticleFilter::getSenseX(Particle best)
+{
+    vector<double> v = best.sense_x;
+    stringstream ss;
+    copy( v.begin(), v.end(), ostream_iterator<float>(ss, " "));
+    string s = ss.str();
+    s = s.substr(0, s.length()-1);  // get rid of the trailing space
+    return s;
+}
+string ParticleFilter::getSenseY(Particle best)
+{
+    vector<double> v = best.sense_y;
+    stringstream ss;
+    copy( v.begin(), v.end(), ostream_iterator<float>(ss, " "));
+    string s = ss.str();
+    s = s.substr(0, s.length()-1);  // get rid of the trailing space
+    return s;
 }
