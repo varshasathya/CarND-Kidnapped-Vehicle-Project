@@ -1,9 +1,3 @@
-/**
- * particle_filter.cpp
- *
- * Created on: Dec 12, 2016
- * Author: Tiffany Huang
- */
 
 #include "particle_filter.h"
 
@@ -125,7 +119,8 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
     int map_id = -1;
     for (unsigned int j = 0; j < predicted.size(); j++)
     {
-      double current_distance = dist(predicted[j].x, predicted[j].y, observations[i].x, observations[i].y);
+      
+      double current_distance = dist(observations[i].x,observations[i].y, predicted[j].x, predicted[j].y);
       // find the predicted landmark nearest the current observed landmark
       if ( current_distance < minimum_distance ) {
         minimum_distance = current_distance;
@@ -168,6 +163,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
       int landmark_id = map_landmarks.landmark_list[j].id_i;
        
       double landmark_dist = dist(x, y, landmark_x, landmark_y);
+       
         
       //only consider landmarks within sensor range of the particle 
       if (landmark_dist < sensor_range) {
@@ -175,6 +171,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
         predicted_landmark.push_back(LandmarkObs{ landmark_id, landmark_x, landmark_y });
       }
      }
+     
      // Transform observations from vehicle co-ordinates to map co-ordinates
      vector<LandmarkObs> transformed_observations;
      for (unsigned int j=0; j<observations.size(); j++)
@@ -183,9 +180,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
        double y_t = observations[j].x * sin(theta) + observations[j].y * cos(theta) + y;
        transformed_observations.push_back(LandmarkObs{ observations[j].id, x_t, y_t });
      }
+     
      //Associate observations to predicted landmarks
      dataAssociation(predicted_landmark, transformed_observations);
-     
+ 
      //reinitialize weights
      particles[i].weight = 1.0;
      for (unsigned int j = 0; j < transformed_observations.size(); j++) 
@@ -204,10 +202,11 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           pred_y = predicted_landmark[k].y;
         }
       }
+       
        double s_x = std_landmark[0];
        double s_y = std_landmark[1];
        double obs_w = ( 1/(2*M_PI*s_x*s_y)) * exp( -( pow(pred_x-obs_x,2)/(2*pow(s_x, 2)) + (pow(pred_y-obs_y,2)/(2*pow(s_y, 2))) ));
-          
+         
           //total observation weight
        particles[i].weight *= obs_w;
 
@@ -223,14 +222,26 @@ void ParticleFilter::resample() {
    * NOTE: You may find std::discrete_distribution helpful here.
    *   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
    */
+  // Get weights
+  vector<double> weights;
+  double max_weight = numeric_limits<double>::min();
+  
    vector<Particle> resampled_particles;
+  
+  
+  for(int i = 0; i < num_particles; i++) {
+    weights.push_back(particles[i].weight);
+    if ( particles[i].weight > max_weight ) {
+      max_weight = particles[i].weight;
+    }
+  }
   
    //Generate random particle index
    uniform_int_distribution<int> particle_index(0, num_particles - 1);
   
    int current_index = particle_index(gen);
    double beta = 0.0;
-   double max_weight = 2.0 * * max_element(weights.begin(), weights.end());
+   
   
    for (int i = 0; i < num_particles; i++)
    {
@@ -246,6 +257,7 @@ void ParticleFilter::resample() {
      resampled_particles.push_back(particles[current_index]);
    }
   particles = resampled_particles;
+  
 }
 Particle ParticleFilter::SetAssociations(Particle particle, std::vector<int> associations, std::vector<double> sense_x, std::vector<double> sense_y)
 {
