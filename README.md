@@ -86,6 +86,7 @@ Success! Your particle filter passed!
 [//]: # (Image References)
 
 [image1]: ./readme_images/Output_kidnapped_vehicles.PNG "Output_kidnapped_vehicles"
+[image2]: ./readme_images/localization_workflow.png "localization_workflow"
 
 # Implementing the Particle Filter
 The directory structure of this repository is as follows:
@@ -114,6 +115,9 @@ root
 The particle filter is implemented in `particle_filter.cpp` in the `src` directory. The file contains the scaffolding of a `ParticleFilter` class and some associated methods. 
 
 The file `src/main.cpp` contains the code that will actually be running your particle filter and calling the associated methods.
+
+# Particle Filter Workflow
+![alt text][image2]
 
 ## Inputs to the Particle Filter
 You can find the inputs to the particle filter in the `data` directory.
