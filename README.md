@@ -87,6 +87,9 @@ Your job is to build out the methods in `particle_filter.cpp` until the simulato
 ```
 Success! Your particle filter passed!
 ```
+[//]: # (Image References)
+
+[image1]: ./Output_kidnapped_vehicles.PNG"
 
 # Implementing the Particle Filter
 The directory structure of this repository is as follows:
@@ -112,9 +115,9 @@ root
     |   particle_filter.h
 ```
 
-The only file you should modify is `particle_filter.cpp` in the `src` directory. The file contains the scaffolding of a `ParticleFilter` class and some associated methods. Read through the code, the comments, and the header file `particle_filter.h` to get a sense for what this code is expected to do.
+The particle filter is implemented in `particle_filter.cpp` in the `src` directory. The file contains the scaffolding of a `ParticleFilter` class and some associated methods. 
 
-If you are interested, take a look at `src/main.cpp` as well. This file contains the code that will actually be running your particle filter and calling the associated methods.
+The file `src/main.cpp` contains the code that will actually be running your particle filter and calling the associated methods.
 
 ## Inputs to the Particle Filter
 You can find the inputs to the particle filter in the `data` directory.
@@ -139,5 +142,4 @@ The things the grading code is looking for are:
 
 2. **Performance**: your particle filter should complete execution within the time of 100 seconds.
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+![alt text][image1]
