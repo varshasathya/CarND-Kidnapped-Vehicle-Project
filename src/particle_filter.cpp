@@ -148,6 +148,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    *   and the following is a good resource for the actual equation to implement
    *   (look at equation 3.33) http://planning.cs.uiuc.edu/node99.html
    */
+   double s_x = std_landmark[0];
+   double s_y = std_landmark[1];
    for (int i = 0; i < num_particles; i++) {
 
     double x = particles[i].x;
@@ -203,13 +205,15 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
         }
       }
        
-       double s_x = std_landmark[0];
-       double s_y = std_landmark[1];
+       
        double obs_w = ( 1/(2*M_PI*s_x*s_y)) * exp( -( pow(pred_x-obs_x,2)/(2*pow(s_x, 2)) + (pow(pred_y-obs_y,2)/(2*pow(s_y, 2))) ));
-         
-          //total observation weight
+        
+       //total observation weight
+       if (obs_w == 0) {
+        particles[i].weight *= 0.00001;
+      } else { 
        particles[i].weight *= obs_w;
-
+      }
        
      }
    }
