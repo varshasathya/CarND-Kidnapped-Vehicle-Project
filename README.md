@@ -89,7 +89,7 @@ Success! Your particle filter passed!
 ```
 [//]: # (Image References)
 
-[image1]: ./Output_kidnapped_vehicles.PNG"
+[image1]: /Output_kidnapped_vehicles.PNG"
 
 # Implementing the Particle Filter
 The directory structure of this repository is as follows:
